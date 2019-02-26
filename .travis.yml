@@ -3,9 +3,9 @@ php:
   - '7.3'
 before_script:
   - composer require danielruf/secure-shred
-  - dd if=/dev/urandom of=file.txt bs=2048 count=10
+  - dd if=/dev/urandom of=file.txt bs=2048 count=100
 script:
-  - time php -r 'require "vendor/autoload.php";$shred = new Shred\Shred(1000);$shred->shred("file.txt", false);'
+  - time php -r 'require "vendor/autoload.php";$shred = new Shred\Shred(1000000);$shred->shred("file.txt", false);'
 cache:
   directories:
     - "$HOME/.composer/cache/files"
