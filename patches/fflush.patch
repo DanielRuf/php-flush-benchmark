@@ -1,0 +1,8 @@
+--- vendor/danielruf/secure-shred/src/Shred.php
++++ vendor/danielruf/secure-shred/src/Shred.php
+@@ -126,4 +126,5 @@ private function overwriteFile($read, $write)
+       for ($n = 0; $n < $iterations; $n++) {
+         $write->fseek($line_tell);
+         $write->fwrite($this->stringRand($line_length));
++        $write->fflush();
+       }

@@ -4,8 +4,15 @@ php:
 before_script:
   - composer require danielruf/secure-shred
   - dd if=/dev/urandom of=file.txt bs=2048 count=100
-script:
-  - time php -r 'require "vendor/autoload.php";$shred = new Shred\Shred(10000);$shred->shred("file.txt", false);'
+matrix:
+  include:
+    - name: "without-fflush"
+      script:
+        - time php -r 'require "vendor/autoload.php";$shred = new Shred\Shred(10000);$shred->shred("file.txt", false);'
+    - name: "with-fflush"
+      script:
+        - git apply -p0 -v  patches/fflush.patch
+        - time php -r 'require "vendor/autoload.php";$shred = new Shred\Shred(10000);$shred->shred("file.txt", false);'
 cache:
   directories:
     - "$HOME/.composer/cache/files"
